@@ -10,8 +10,8 @@ export interface GlossaryEntry {
     text: string;
 }
 
-// Gドライブのローカルパスを直接指定 (Next.jsのサーバーサイド処理で読み込みます)
-const DATA_FILE_PATH = 'G:\\マイドライブ\\Antigravity\\NekowakaMoney\\src\\data\\web_archives\\glossary.jsonl';
+// プロジェクト内のデータを参照 (Vercel等のサーバーサイドで読み込むため)
+const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'data', 'glossary.jsonl');
 
 export function getGlossaryData(): GlossaryEntry[] {
     try {
