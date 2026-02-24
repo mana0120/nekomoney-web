@@ -43,7 +43,7 @@ export default function AdBanner({ htmlContent, placeholderText = '広告スペ�
         return (
             <div
                 className={`${baseClassName} ad-container`}
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
+                dangerouslySetInnerHTML={{ __html: htmlContent || "" }}
             />
         );
     }
