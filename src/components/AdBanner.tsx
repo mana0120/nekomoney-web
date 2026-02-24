@@ -17,6 +17,10 @@ interface AdBannerProps {
  * を防ぐため、クライアントサイドでのみ広告をレンダリングします。
  */
 export default function AdBanner({ htmlContent, placeholderText = '広告スペース', className = '' }: AdBannerProps) {
+    // 【広告再開手順】
+    // 以下の "return null;" の行を削除（またはコメントアウト）すると、再び広告枠が表示されるようになります
+    return null;
+
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
