@@ -44,8 +44,10 @@ export default function RootLayout({
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-bold text-white bg-slate-800 hover:bg-slate-700 rounded-full transition-colors shadow-sm"
+                            aria-label="X (Twitter) 公式アカウント"
                         >
-                            <span>𝕏</span> 公式アカウント
+                            <span className="text-base leading-none">𝕏</span>
+                            <span className="hidden sm:inline">公式アカウント</span>
                         </a>
                     </div>
                 </header>
