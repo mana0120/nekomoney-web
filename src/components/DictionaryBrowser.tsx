@@ -17,6 +17,12 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
     const [selectedCategory, setSelectedCategory] = useState('ALL');
     const [selectedYomi, setSelectedYomi] = useState('');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+    const [displayCount, setDisplayCount] = useState(30); // 一度に表示する件数
+
+    // フィルタリング条件が変わったら表示件数をリセットする
+    useEffect(() => {
+        setDisplayCount(30);
+    }, [searchQuery, selectedCategory, selectedYomi]);
 
     // NEWバッジ用の今日の日付文字列（YYYY-MM-DD）
     const [todayStr, setTodayStr] = useState('');
@@ -196,7 +202,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 gap-4">
-                        {filteredData.map((entry, index) => (
+                        {filteredData.slice(0, displayCount).map((entry, index) => (
                             <Link
                                 key={`${entry.word}-${index}`}
                                 href={`/word/${encodeURIComponent(entry.word)}`}
@@ -228,6 +234,18 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                                 </div>
                             </Link>
                         ))}
+                    </div>
+                )}
+
+                {/* もっと見るボタン */}
+                {filteredData.length > displayCount && (
+                    <div className="mt-8 text-center">
+                        <button
+                            onClick={() => setDisplayCount(prev => prev + 30)}
+                            className="inline-flex items-center justify-center px-6 py-3 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-bold rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto min-w-[200px]"
+                        >
+                            もっと見る ({filteredData.length - displayCount}件) ▼
+                        </button>
                     </div>
                 )}
             </div>
