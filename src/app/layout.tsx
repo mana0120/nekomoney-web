@@ -5,8 +5,26 @@ import Script from 'next/script';
 import AdBanner from '@/components/AdBanner';
 
 export const metadata: Metadata = {
-    title: 'ネコでもわかる金融・経済用語辞典',
-    description: '毎日のニュースから学べる金融・経済・ビジネス用語辞典',
+    metadataBase: new URL('https://nekomoney-web.vercel.app'),
+    title: {
+        default: 'ネコでもわかる金融・経済用語辞典',
+        template: '%s | ネコでもわかる金融・経済用語辞典'
+    },
+    description: '毎日のニュースから学べる金融・経済・ビジネス用語辞典。難しい言葉もネコでもわかるくらい優しく解説します。',
+    openGraph: {
+        title: 'ネコでもわかる金融・経済用語辞典',
+        description: '毎日のニュースから学べる金融・経済・ビジネス用語辞典',
+        url: 'https://nekomoney-web.vercel.app',
+        siteName: 'ネコでもわかる金融・経済用語辞典',
+        locale: 'ja_JP',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'ネコでもわかる金融・経済用語辞典',
+        description: '毎日のニュースから学べる金融・経済・ビジネス用語辞典',
+        site: '@nekowakamoney',
+    },
 };
 
 export default function RootLayout({
@@ -14,9 +32,26 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    // 構造化データ (Organization)
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'ネコでもわかる金融・経済用語辞典',
+        url: 'https://nekomoney-web.vercel.app',
+        logo: 'https://nekomoney-web.vercel.app/logo.png',
+        sameAs: [
+            'https://x.com/nekowakamoney'
+        ]
+    };
+
     return (
         <html lang="ja">
             <head>
+                {/* 構造化データの注入 */}
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
                 {/* Google Analytics (GA4) */}
                 <Script
                     src="https://www.googletagmanager.com/gtag/js?id=G-MHYD4JGE5Y"

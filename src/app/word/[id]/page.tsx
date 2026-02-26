@@ -60,6 +60,27 @@ function parseTextWithLinks(text: string, glossaryWords: string[]): ReactNode[] 
     return result;
 }
 
+import { Metadata, ResolvingMetadata } from 'next';
+
+export async function generateMetadata(
+    { params }: { params: { id: string } },
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const decodedWord = decodeURIComponent(params.id);
+    const entries = getGlossaryData();
+    const entry = entries.find(e => e.word === decodedWord);
+
+    return {
+        title: `${decodedWord} とは？意味と使い方をわかりやすく解説`,
+        description: entry ? `${entry.text.slice(0, 120)}...` : '金融・経済用語のわかりやすい解説。',
+        openGraph: {
+            title: `${decodedWord} | ネコでもわかる金融・経済用語辞典`,
+            description: entry ? entry.text.slice(0, 100) : '',
+            type: 'article',
+        }
+    };
+}
+
 export async function generateStaticParams() {
     const entries = getGlossaryData();
     return entries.map((entry) => ({
@@ -75,6 +96,19 @@ export default function WordPage({ params }: { params: { id: string } }) {
     if (!entry) {
         notFound();
     }
+
+    // 構造化データ (DefinedTerm)
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'DefinedTerm',
+        'name': entry.word,
+        'description': entry.text,
+        'inDefinedTermSet': {
+            '@type': 'DefinedTermSet',
+            'name': 'ネコでもわかる金融・経済用語辞典',
+            'url': 'https://nekomoney-web.vercel.app'
+        }
+    };
 
     // 関連ワード（同じカテゴリから自身を除きシャッフルして最大4件取得）
     const relatedWords = entries
@@ -92,6 +126,11 @@ export default function WordPage({ params }: { params: { id: string } }) {
 
     return (
         <div className="max-w-3xl mx-auto">
+            {/* 構造化データの注入 */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <div className="mb-6">
                 <Link href="/" scroll={false} className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-1.5 text-sm font-medium bg-white px-3 py-1.5 rounded-full border border-blue-100 shadow-sm transition-colors">
                     <span>←</span> トップページに戻る
