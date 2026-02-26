@@ -47,13 +47,16 @@ export default function RootLayout({
     return (
         <html lang="ja">
             <head>
-                {/* Google AdSense */}
-                <Script
+                {/* Google AdSense 所有権確認用メタタグ */}
+                <meta name="google-adsense-account" content="ca-pub-8496502036659419" />
+
+                {/* Google AdSense スクリプト (標準タグ) */}
+                <script
                     async
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8496502036659419"
                     crossOrigin="anonymous"
-                    strategy="afterInteractive"
-                />
+                ></script>
+
                 {/* 構造化データの注入 */}
                 <script
                     type="application/ld+json"
