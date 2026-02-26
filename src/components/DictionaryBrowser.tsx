@@ -65,14 +65,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
         };
     }, [searchQuery, selectedCategory, selectedYomi, displayCount, isInitialized]);
 
-    // ユーザー操作によるフィルタリング条件変更時は表示件数をリセットする
-    // ただし、初回ロード（状態復元時）はリセットしない
-    useEffect(() => {
-        if (isInitialized) {
-            setDisplayCount(30);
-            sessionStorage.removeItem('dictionaryBrowserState'); // 検索したらスクロール位置も破棄
-        }
-    }, [searchQuery, selectedCategory, selectedYomi, isInitialized]);
+
 
     // NEWバッジ用の今日の日付文字列（YYYY-MM-DD）
     const [todayStr, setTodayStr] = useState('');
@@ -165,7 +158,11 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                         placeholder="キーワードや読みで検索..."
                         className="w-full p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none text-sm bg-slate-50 transition-colors"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                            setDisplayCount(30);
+                            sessionStorage.removeItem('dictionaryBrowserState');
+                        }}
                     />
                 </div>
 
@@ -179,7 +176,13 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                             categoryCounts[cat] > 0 || cat === 'ALL' ? (
                                 <li key={cat}>
                                     <button
-                                        onClick={() => { setSelectedCategory(cat); setSelectedYomi(''); setSearchQuery(''); }}
+                                        onClick={() => {
+                                            setSelectedCategory(cat);
+                                            setSelectedYomi('');
+                                            setSearchQuery('');
+                                            setDisplayCount(30);
+                                            sessionStorage.removeItem('dictionaryBrowserState');
+                                        }}
                                         className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors flex justify-between items-center ${selectedCategory === cat
                                             ? 'bg-blue-50 text-blue-700 font-bold'
                                             : 'text-slate-600 hover:bg-slate-50'
@@ -203,7 +206,11 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                     </h2>
                     <div className="flex flex-wrap gap-1.5">
                         <button
-                            onClick={() => setSelectedYomi('')}
+                            onClick={() => {
+                                setSelectedYomi('');
+                                setDisplayCount(30);
+                                sessionStorage.removeItem('dictionaryBrowserState');
+                            }}
                             className={`px-3 py-1.5 text-xs rounded-md border font-medium transition-colors w-full mb-1 ${selectedYomi === '' ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                 }`}
                         >
@@ -212,7 +219,11 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                         {yomiRows.map(row => (
                             <button
                                 key={row}
-                                onClick={() => setSelectedYomi(row)}
+                                onClick={() => {
+                                    setSelectedYomi(row);
+                                    setDisplayCount(30);
+                                    sessionStorage.removeItem('dictionaryBrowserState');
+                                }}
                                 className={`w-10 h-10 flex items-center justify-center text-sm rounded-md border font-medium transition-colors ${selectedYomi === row ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
                                     } ${row === '英数字' ? 'w-auto px-4 flex-1' : ''}`}
                             >
@@ -231,7 +242,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
                     <h1 className="text-2xl font-bold text-slate-800">
                         {selectedCategory !== 'ALL' ? `${selectedCategory}` : 'すべての用語'}
-                        {selectedYomi && <span className="text-blue-600 ml-2 text-xl hover:bg-blue-50 px-2 py-1 rounded cursor-pointer" onClick={() => setSelectedYomi('')}>({selectedYomi}行 ✕)</span>}
+                        {selectedYomi && <span className="text-blue-600 ml-2 text-xl hover:bg-blue-50 px-2 py-1 rounded cursor-pointer" onClick={() => { setSelectedYomi(''); setDisplayCount(30); sessionStorage.removeItem('dictionaryBrowserState'); }}>({selectedYomi}行 ✕)</span>}
                     </h1>
                     <span className="text-slate-500 font-medium bg-white px-3 py-1 rounded-full border border-slate-200 text-sm shadow-sm">
                         {filteredData.length} 件
@@ -244,7 +255,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                         <h3 className="text-lg font-bold text-slate-800 mb-2">対象の用語が見つかりませんでした</h3>
                         <p className="text-slate-500 text-sm">検索キーワードを変えるか、別の絞り込み条件をお試しください。</p>
                         <button
-                            onClick={() => { setSearchQuery(''); setSelectedCategory('ALL'); setSelectedYomi(''); }}
+                            onClick={() => { setSearchQuery(''); setSelectedCategory('ALL'); setSelectedYomi(''); setDisplayCount(30); sessionStorage.removeItem('dictionaryBrowserState'); }}
                             className="mt-4 px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-sm font-medium transition-colors"
                         >
                             条件をクリアする
