@@ -77,7 +77,12 @@ export default function RootLayout({
                         <p className="text-xs text-slate-500 leading-relaxed">
                             【免責事項】当サイトに掲載されている金融・経済・投資などの用語解説や関連情報は、一般的な知識の提供を目的としており、特定の投資商品の勧誘や売買の推奨を目的としたものではありません。投資に関する最終的な決定は、ご自身の判断と自己責任で行っていただきますようお願いいたします。情報の内容については正確性を期しておりますが、それを保証するものではありません。
                         </p>
-                        <p>© {new Date().getFullYear()} Nekomoney. All rights reserved.</p>
+                        <div className="flex flex-wrap justify-center gap-4 text-sm mt-4">
+                            <Link href="/about" className="hover:text-blue-400 transition-colors">運営者情報</Link>
+                            <Link href="/privacy" className="hover:text-blue-400 transition-colors">プライバシーポリシー</Link>
+                            <Link href="/contact" className="hover:text-blue-400 transition-colors">ご意見・リクエスト</Link>
+                        </div>
+                        <p className="pt-4 border-t border-slate-700/50">© {new Date().getFullYear()} Nekomoney. All rights reserved.</p>
                     </div>
                 </footer>
             </body>
