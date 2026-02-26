@@ -55,8 +55,8 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                 result = result.filter(item => /^[A-Za-z0-9]/.test(item.word || ''));
             } else {
                 const rowMap: Record<string, RegExp> = {
-                    'ア': /^[ア-オ]/, 'カ': /^[カ-ゴ]/, 'サ': /^[サ-ゾ]/, 'タ': /^[タ-ド]/, 'ナ': /^[ナ-ノ]/,
-                    'ハ': /^[ハ-ポ]/, 'マ': /^[マ-モ]/, 'ヤ': /^[ヤ-ヨ]/, 'ラ': /^[ラ-ロ]/, 'ワ': /^[ワ-ン]/
+                    'ア': /^[あ-おア-オ]/, 'カ': /^[か-ごカ-ゴ]/, 'サ': /^[さ-ぞサ-ゾ]/, 'タ': /^[た-どタ-ド]/, 'ナ': /^[な-のナ-ノ]/,
+                    'ハ': /^[は-ぽハ-ポ]/, 'マ': /^[ま-もマ-モ]/, 'ヤ': /^[や-よヤ-ヨ]/, 'ラ': /^[ら-ろラ-ロ]/, 'ワ': /^[わ-んワ-ン]/
                 };
                 const regex = rowMap[selectedYomi];
                 if (regex) {
