@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'ご意見・リクエスト | ネコでもわかる金融・経済用語辞典',
