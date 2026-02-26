@@ -18,11 +18,61 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
     const [selectedYomi, setSelectedYomi] = useState('');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [displayCount, setDisplayCount] = useState(30); // 一度に表示する件数
+    const [isInitialized, setIsInitialized] = useState(false);
 
-    // フィルタリング条件が変わったら表示件数をリセットする
+    // 状態の復元 (マウント時)
     useEffect(() => {
-        setDisplayCount(30);
-    }, [searchQuery, selectedCategory, selectedYomi]);
+        const savedState = sessionStorage.getItem('dictionaryBrowserState');
+        if (savedState) {
+            try {
+                const state = JSON.parse(savedState);
+                if (state.searchQuery !== undefined) setSearchQuery(state.searchQuery);
+                if (state.selectedCategory !== undefined) setSelectedCategory(state.selectedCategory);
+                if (state.selectedYomi !== undefined) setSelectedYomi(state.selectedYomi);
+                if (state.displayCount !== undefined) setDisplayCount(state.displayCount);
+                if (state.scrollPosition !== undefined) {
+                    // DOMのレンダリング後にスクロール位置を復元する
+                    setTimeout(() => {
+                        window.scrollTo(0, state.scrollPosition);
+                    }, 100);
+                }
+            } catch (e) {
+                console.error("Failed to restore state", e);
+            }
+        }
+        setIsInitialized(true);
+    }, []);
+
+    // 状態の保存 (アンマウント・遷移時)
+    useEffect(() => {
+        const handleSaveState = () => {
+            if (!isInitialized) return;
+            const state = {
+                searchQuery,
+                selectedCategory,
+                selectedYomi,
+                displayCount,
+                scrollPosition: window.scrollY
+            };
+            sessionStorage.setItem('dictionaryBrowserState', JSON.stringify(state));
+        };
+
+        // ページを離れる直前に現在状態とスクロール位置を保存
+        window.addEventListener('beforeunload', handleSaveState);
+        return () => {
+            handleSaveState();
+            window.removeEventListener('beforeunload', handleSaveState);
+        };
+    }, [searchQuery, selectedCategory, selectedYomi, displayCount, isInitialized]);
+
+    // ユーザー操作によるフィルタリング条件変更時は表示件数をリセットする
+    // ただし、初回ロード（状態復元時）はリセットしない
+    useEffect(() => {
+        if (isInitialized) {
+            setDisplayCount(30);
+            sessionStorage.removeItem('dictionaryBrowserState'); // 検索したらスクロール位置も破棄
+        }
+    }, [searchQuery, selectedCategory, selectedYomi, isInitialized]);
 
     // NEWバッジ用の今日の日付文字列（YYYY-MM-DD）
     const [todayStr, setTodayStr] = useState('');

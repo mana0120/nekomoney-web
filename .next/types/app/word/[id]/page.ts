@@ -1,4 +1,4 @@
-// File: C:\Users\por99\Desktop\nekomoney-web\src\app\word\[id]\page.tsx
+// File: c:\Users\por99\Desktop\nekomoney-web\src\app\word\[id]\page.tsx
 import * as entry from '../../../../../src/app/word/[id]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
