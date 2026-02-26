@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: '運営者情報 | ネコでもわかる金融・経済用語辞典',
@@ -49,6 +50,12 @@ export default function AboutPage() {
                     </p>
                 </section>
 
+            </div>
+
+            <div className="text-center mt-8">
+                <Link href="/" scroll={false} className="inline-block px-6 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-sm font-medium transition-colors">
+                    トップページに戻る
+                </Link>
             </div>
         </div>
     );
