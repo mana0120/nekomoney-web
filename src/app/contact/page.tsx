@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'ご意見・リクエスト | 猫でもわかるマネー用語辞典',
-    description: '猫でもわかるマネー用語辞典へのご意見、用語追加のリクエストはこちらから受け付けています。',
+    title: 'ご意見・リクエスト | ネコでもわかる金融・経済用語辞典',
+    description: 'ネコでもわかる金融・経済用語辞典へのご意見、用語追加のリクエストはこちらから受け付けています。',
 };
 
 export default function ContactPage() {

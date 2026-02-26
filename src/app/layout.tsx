@@ -5,7 +5,7 @@ import Script from 'next/script';
 import AdBanner from '@/components/AdBanner';
 
 export const metadata: Metadata = {
-    title: '猫でもわかるマネー用語辞典',
+    title: 'ネコでもわかる金融・経済用語辞典',
     description: '毎日のニュースから学べる金融・経済・ビジネス用語辞典',
 };
 
@@ -37,7 +37,7 @@ export default function RootLayout({
                     <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                         <Link href="/" className="text-[15px] sm:text-xl font-bold gap-1 sm:gap-2 text-slate-800 hover:text-blue-600 transition-colors flex items-center tracking-tight sm:tracking-normal leading-none shrink-0">
                             <span className="text-xl sm:text-2xl pb-0.5">🐱</span>
-                            猫でもわかるマネー用語辞典
+                            ネコでもわかる金融・経済用語辞典
                         </Link>
                         <div className="flex items-center gap-3">
                             <Link
