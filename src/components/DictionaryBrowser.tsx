@@ -32,9 +32,14 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                 if (state.displayCount !== undefined) setDisplayCount(state.displayCount);
                 if (state.scrollPosition !== undefined) {
                     // DOMのレンダリング後にスクロール位置を復元する
+                    // Next.jsの自動スクロールを上書きするため少し遅延させる
                     setTimeout(() => {
                         window.scrollTo(0, state.scrollPosition);
-                    }, 100);
+                    }, 150);
+                    // 念のためもう一度（画像等によるレイアウトシフト対策）
+                    setTimeout(() => {
+                        window.scrollTo(0, state.scrollPosition);
+                    }, 400);
                 }
             } catch (e) {
                 console.error("Failed to restore state", e);
@@ -57,10 +62,9 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
             sessionStorage.setItem('dictionaryBrowserState', JSON.stringify(state));
         };
 
-        // ページを離れる直前に現在状態とスクロール位置を保存
+        // ページを離れる直前に現在状態とスクロール位置を保存 (リロード対策)
         window.addEventListener('beforeunload', handleSaveState);
         return () => {
-            handleSaveState();
             window.removeEventListener('beforeunload', handleSaveState);
         };
     }, [searchQuery, selectedCategory, selectedYomi, displayCount, isInitialized]);
@@ -267,6 +271,16 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                             <Link
                                 key={`${entry.word}-${index}`}
                                 href={`/word/${encodeURIComponent(entry.word)}`}
+                                onClick={() => {
+                                    // 遷移直前（Next.jsがスクロール位置をリセットする前）に現在地を保存
+                                    sessionStorage.setItem('dictionaryBrowserState', JSON.stringify({
+                                        searchQuery,
+                                        selectedCategory,
+                                        selectedYomi,
+                                        displayCount,
+                                        scrollPosition: window.scrollY
+                                    }));
+                                }}
                                 className="bg-white group rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-slate-200 p-5 sm:p-6 flex flex-col h-full"
                             >
                                 <div className="flex justify-between items-start mb-2 gap-4">
