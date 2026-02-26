@@ -218,11 +218,6 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                                     <span className="inline-block px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-md">
                                         {entry.category || '生活・その他'}
                                     </span>
-                                    {entry.source === 'news' && (
-                                        <span className="inline-block px-2.5 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-md">
-                                            ニュース解説
-                                        </span>
-                                    )}
                                 </div>
 
                                 <p className="text-slate-600 text-sm sm:text-base line-clamp-2 leading-relaxed mb-4">

@@ -33,7 +33,8 @@ export function getGlossaryData(): GlossaryEntry[] {
             }
         }).filter((entry): entry is GlossaryEntry => entry !== null);
 
-        // 新しい順（日付の降順）でソート
+        // JSONLの末尾により新しい単語が追加されるため、反転してから日付で安定ソートする
+        entries.reverse();
         return entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     } catch (error) {
