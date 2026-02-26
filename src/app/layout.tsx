@@ -35,8 +35,8 @@ export default function RootLayout({
             <body className="flex flex-col min-h-screen bg-slate-50 text-slate-900">
                 <header className="bg-white border-b border-slate-200 sticky top-0 z-50">
                     <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                        <Link href="/" className="text-xl font-bold gap-2 text-slate-800 hover:text-blue-600 transition-colors flex items-center">
-                            <span className="text-2xl">🐱</span>
+                        <Link href="/" className="text-[15px] sm:text-xl font-bold gap-1 sm:gap-2 text-slate-800 hover:text-blue-600 transition-colors flex items-center tracking-tight sm:tracking-normal leading-none shrink-0">
+                            <span className="text-xl sm:text-2xl pb-0.5">🐱</span>
                             猫でもわかるマネー用語辞典
                         </Link>
                         <div className="flex items-center gap-3">
