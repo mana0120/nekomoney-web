@@ -93,7 +93,7 @@ export default function WordPage({ params }: { params: { id: string } }) {
     return (
         <div className="max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-1.5 text-sm font-medium bg-white px-3 py-1.5 rounded-full border border-blue-100 shadow-sm transition-colors">
+                <Link href="/" scroll={false} className="inline-flex items-center text-blue-600 hover:text-blue-800 gap-1.5 text-sm font-medium bg-white px-3 py-1.5 rounded-full border border-blue-100 shadow-sm transition-colors">
                     <span>←</span> トップページに戻る
                 </Link>
             </div>

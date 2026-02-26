@@ -19,6 +19,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [displayCount, setDisplayCount] = useState(30); // 一度に表示する件数
     const [isInitialized, setIsInitialized] = useState(false);
+    const [isScrollRestored, setIsScrollRestored] = useState(false);
 
     // 状態の復元 (マウント時)
     useEffect(() => {
@@ -34,16 +35,22 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                     // DOMのレンダリング後にスクロール位置を復元する
                     // Next.jsの自動スクロールを上書きするため少し遅延させる
                     setTimeout(() => {
-                        window.scrollTo(0, state.scrollPosition);
-                    }, 150);
-                    // 念のためもう一度（画像等によるレイアウトシフト対策）
+                        window.scrollTo({ top: state.scrollPosition, behavior: 'instant' });
+                        setIsScrollRestored(true);
+                    }, 100);
+                    // 万が一のレイアウトシフト対策（2回目は念のため）
                     setTimeout(() => {
-                        window.scrollTo(0, state.scrollPosition);
-                    }, 400);
+                        window.scrollTo({ top: state.scrollPosition, behavior: 'instant' });
+                    }, 300);
+                } else {
+                    setIsScrollRestored(true);
                 }
             } catch (e) {
                 console.error("Failed to restore state", e);
+                setIsScrollRestored(true);
             }
+        } else {
+            setIsScrollRestored(true);
         }
         setIsInitialized(true);
     }, []);
@@ -136,7 +143,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
     const yomiRows = ['ア', 'カ', 'サ', 'タ', 'ナ', 'ハ', 'マ', 'ヤ', 'ラ', 'ワ', '英数字'];
 
     return (
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className={`flex flex-col md:flex-row gap-8 transition-opacity duration-200 ${isScrollRestored ? 'opacity-100' : 'opacity-0'}`}>
 
             {/* スマホ用トグルボタン */}
             <div className="md:hidden block mb-[-1rem]">
