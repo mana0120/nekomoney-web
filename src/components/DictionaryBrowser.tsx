@@ -41,7 +41,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
             counts[cat] = (counts[cat] || 0) + 1;
         });
         // 固定カテゴリの0件表示用
-        const standardCategories = ['投資', '経済', '金融', '税金・制度', '企業', '人名', '生活・その他'];
+        const standardCategories = ['投資', '経済', '金融', '経営・財務', '税金・制度', '企業', '人名', '生活・その他'];
         standardCategories.forEach(cat => {
             if (!(cat in counts)) counts[cat] = 0;
         });
@@ -85,7 +85,7 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
         return result;
     }, [initialData, selectedCategory, selectedYomi, searchQuery]);
 
-    const categories = ['ALL', '投資', '経済', '金融', '税金・制度', '企業', '人名', '生活・その他'];
+    const categories = ['ALL', '投資', '経済', '金融', '経営・財務', '税金・制度', '企業', '人名', '生活・その他'];
     const yomiRows = ['ア', 'カ', 'サ', 'タ', 'ナ', 'ハ', 'マ', 'ヤ', 'ラ', 'ワ', '英数字'];
 
     return (
