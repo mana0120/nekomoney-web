@@ -134,6 +134,21 @@ export default function DictionaryBrowser({ initialData }: { initialData: Glossa
                 item.text.toLowerCase().includes(q) ||
                 (item.yomi && item.yomi.includes(q))
             );
+
+            // 単語名（word）にキーワードが含まれるものを優先的に上に表示するソート
+            result = [...result].sort((a, b) => {
+                const aWordMatch = a.word.toLowerCase().includes(q);
+                const bWordMatch = b.word.toLowerCase().includes(q);
+                
+                // 両方とも単語名に含む、または両方とも含まない（解説文のみ含む）場合は、元の順序（日付順など）を維持
+                if (aWordMatch === bWordMatch) return 0;
+                
+                // aが単語名に含み、bが含んでいない場合はaを上に
+                if (aWordMatch && !bWordMatch) return -1;
+                
+                // bが単語名に含み、aが含んでいない場合はbを上に
+                return 1;
+            });
         }
 
         return result;
